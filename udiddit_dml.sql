@@ -5,3 +5,9 @@ INSERT INTO users (username)
   UNION
   SELECT username
   FROM bad_comments;
+
+
+-- Migrate distinct topic names from the bad_posts table
+INSERT INTO topics (name)
+  SELECT DISTINCT topic
+  FROM bad_posts;
