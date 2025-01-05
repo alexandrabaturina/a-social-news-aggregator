@@ -23,11 +23,13 @@ CREATE TABLE topics (
 CREATE TABLE posts (
   id SERIAL PRIMARY KEY,
   title VARCHAR(100) NOT NULL,
-  topic_id INTEGER,
+  topic_id INTEGER NOT NULL,
   post_date TIMESTAMP,
-  user_id INTEGER,
+  user_id INTEGER NOT NULL,
   url VARCHAR(500) DEFAULT NULL,
   text_content VARCHAR(1000) DEFAULT NULL,
+  CONSTRAINT topic_title_length
+    CHECK (LENGTH(TRIM(title)) > 0)
   CONSTRAINT fk_valid_topic FOREIGN KEY (topic_id)
     REFERENCES topics(id) ON DELETE CASCADE,
   CONSTRAINT fk_valid_user FOREIGN KEY (user_id)
