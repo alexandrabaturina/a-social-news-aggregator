@@ -1,10 +1,16 @@
 -- Migrate distinct usernames from the bad_posts and the bad_comments tables
 INSERT INTO users (username)
-  SELECT username
+  SELECT DISTINCT username
   FROM bad_posts
   UNION
-  SELECT username
-  FROM bad_comments;
+  SELECT DISTINCT username
+  FROM bad_comments
+  UNION
+  SELECT DISTINCT regexp_split_to_table(upvotes, ',')
+  FROM bad_posts
+  UNION
+  SELECT DISTINCT regexp_split_to_table(downvotes, ',')
+  FROM bad_posts;
 
 
 -- Migrate distinct topic names from the bad_posts table
