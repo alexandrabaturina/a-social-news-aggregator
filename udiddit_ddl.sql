@@ -62,7 +62,7 @@ CREATE TABLE comments (
     id SERIAL PRIMARY KEY,
     post_id INTEGER NOT NULL,
     comment_text VARCHAR(1000),
-    parent_comment_id INTEGER NOT NULL,
+    parent_comment_id INTEGER,
     user_id INTEGER NOT NULL,
     comment_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT comment_text_length CHECK (LENGTH(TRIM(comment_text)) > 0),
