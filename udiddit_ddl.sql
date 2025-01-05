@@ -29,7 +29,7 @@ CREATE TABLE posts (
   url VARCHAR(500) DEFAULT NULL,
   text_content VARCHAR(1000) DEFAULT NULL,
   CONSTRAINT topic_title_length
-    CHECK (LENGTH(TRIM(title)) > 0)
+    CHECK (LENGTH(TRIM(title)) > 0),
   CONSTRAINT fk_valid_topic FOREIGN KEY (topic_id)
     REFERENCES topics(id) ON DELETE CASCADE,
   CONSTRAINT fk_valid_user FOREIGN KEY (user_id)
