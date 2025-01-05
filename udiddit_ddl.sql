@@ -55,3 +55,31 @@ CREATE INDEX idx_latest_posts_by_user ON posts (user_id, post_date DESC);
 
 --Find all posts that link to a specific URL
 CREATE INDEX idx_post_to_url ON posts (url);
+
+
+-- Create the comments table
+CREATE TABLE comments (
+    id SERIAL PRIMARY KEY,
+    post_id INTEGER NOT NULL,
+    comment_text VARCHAR(1000),
+    parent_comment_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    comment_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT comment_text_length CHECK (LENGTH(TRIM(comment_text)) > 0),
+    CONSTRAINT fk_valid_post FOREIGN KEY (post_id)
+        REFERENCES posts(id) ON DELETE CASCADE,
+    CONSTRAINT fk_valid_parent FOREIGN KEY (parent_comment_id)
+        REFERENCES comments(id) ON DELETE CASCADE,
+    CONSTRAINT fk_valid_user FOREIGN KEY (user_id)
+        REFERENCES users(id) ON DELETE SET NULL
+);
+
+-- List all the top-level comments for a given post
+CREATE INDEX idx_top_level_comments ON comments (post_id, parent_comment_id);
+
+-- List all the direct children of a parent comment
+CREATE INDEX idx_direct_children ON comments (parent_comment_id);
+
+-- List the latest 20 comments made by a given user
+CREATE INDEX idx_user_latest_comments
+    ON comments (user_id, comment_timestamp DESC);
