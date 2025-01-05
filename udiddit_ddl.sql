@@ -83,3 +83,21 @@ CREATE INDEX idx_direct_children ON comments (parent_comment_id);
 -- List the latest 20 comments made by a given user
 CREATE INDEX idx_user_latest_comments
     ON comments (user_id, comment_timestamp DESC);
+
+
+-- Create the votes table
+CREATE TABLE votes (
+    id SERIAL PRIMARY KEY,
+    post_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL,
+    vote INTEGER,
+    CONSTRAINT fk_valid_user FOREIGN KEY (user_id)
+        REFERENCES users(id) ON DELETE SET NULL,
+    CONSTRAINT fk_valid_post FOREIGN KEY (post_id)
+        REFERENCES posts(id) ON DELETE CASCADE,
+    CONSTRAINT unique_vote UNIQUE (user_id, post_id),
+    CONSTRAINT valid_vote CHECK (vote IN (-1, 1))
+);
+
+-- Compute the score of a post
+CREATE INDEX idx_post_score(post_id);
