@@ -32,3 +32,16 @@ JOIN users u
 ON bp.username = u.username
 JOIN topics t
 ON bp.topic = t.name;
+
+
+-- Migrate data to the comments table
+INSERT INTO comments(post_id, comment_text, user_id)
+    SELECT
+        bp.id,
+        bc.text_content,
+        u.id
+    FROM bad_posts bp
+    JOIN bad_comments bc
+    ON bp.id = bc.post_id
+    JOIN users u
+    ON bp.username = u.username;
