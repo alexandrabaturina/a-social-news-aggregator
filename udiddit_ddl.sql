@@ -1,9 +1,9 @@
 -- Create the users table
 CREATE TABLE users (
-  id SERIAL PRIMARY KEY,
-  username VARCHAR(25) UNIQUE NOT NULL,
-  last_logon_date DATE,
-  CONSTRAINT username_length CHECK (LENGTH(TRIM(username)) > 0)
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(25) UNIQUE NOT NULL,
+    last_logon_date DATE,
+    CONSTRAINT username_length CHECK (LENGTH(TRIM(username)) > 0)
 );
 
 -- List all users who haven't logged in in the last year
@@ -12,10 +12,10 @@ CREATE INDEX idx_users_last_logon_date ON users (last_logon_date DESC);
 
 -- Create the topics table
 CREATE TABLE topics (
-  id SERIAL PRIMARY KEY,
-  name VARCHAR(30) UNIQUE NOT NULL,
-  description VARCHAR(500) DEFAULT NULL,
-  CONSTRAINT topic_name_length CHECK (LENGTH(TRIM(name)) > 0)
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(30) UNIQUE NOT NULL,
+    description VARCHAR(500) DEFAULT NULL,
+    CONSTRAINT topic_name_length CHECK (LENGTH(TRIM(name)) > 0)
 );
 
 
