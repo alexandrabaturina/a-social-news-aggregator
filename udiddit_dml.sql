@@ -45,3 +45,33 @@ INSERT INTO comments(post_id, comment_text, user_id)
     ON bp.id = bc.post_id
     JOIN users u
     ON bp.username = u.username;
+
+
+-- Migrate data to the votes table
+WITH upvotes AS (
+    SELECT
+        id AS post_id,
+        regexp_split_to_table(upvotes, ',') AS username,
+        1 as vote
+    FROM bad_posts
+),
+
+downvotes AS(
+    SELECT
+        id AS post_id,
+        regexp_split_to_table(downvotes, ',') AS username,
+        -1 as vote
+    FROM bad_posts
+)
+
+INSERT INTO votes(post_id, user_id, vote)
+    SELECT
+        v.post_id,
+        u.id,
+        v.vote
+        FROM
+            (SELECT * FROM upvotes
+            UNION
+            SELECT * FROM downvotes) AS v
+        LEFT JOIN users u
+        ON v.username = u.username;
