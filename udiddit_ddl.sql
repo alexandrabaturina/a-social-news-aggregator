@@ -21,24 +21,24 @@ CREATE TABLE topics (
 
 -- Create the posts table
 CREATE TABLE posts (
-  id SERIAL PRIMARY KEY,
-  title VARCHAR(100) NOT NULL,
-  topic_id INTEGER NOT NULL,
-  post_date TIMESTAMP,
-  user_id INTEGER NOT NULL,
-  url VARCHAR(500) DEFAULT NULL,
-  text_content VARCHAR(1000) DEFAULT NULL,
-  CONSTRAINT topic_title_length
-    CHECK (LENGTH(TRIM(title)) > 0),
-  CONSTRAINT fk_valid_topic FOREIGN KEY (topic_id)
-    REFERENCES topics(id) ON DELETE CASCADE,
-  CONSTRAINT fk_valid_user FOREIGN KEY (user_id)
-    REFERENCES users(id) ON DELETE SET NULL,
-  CONSTRAINT url_or_text CHECK (
-    (url IS NULL OR text_content IS NULL)
-    AND NOT
-    (url IS NULL AND text_content IS NULL)
-  )
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    topic_id INTEGER NOT NULL,
+    post_date TIMESTAMP,
+    user_id INTEGER,
+    url VARCHAR(500) DEFAULT NULL,
+    text_content VARCHAR(1000) DEFAULT NULL,
+    CONSTRAINT topic_title_length
+        CHECK (LENGTH(TRIM(title)) > 0),
+    CONSTRAINT fk_valid_topic FOREIGN KEY (topic_id)
+        REFERENCES topics(id) ON DELETE CASCADE,
+    CONSTRAINT fk_valid_user FOREIGN KEY (user_id)
+        REFERENCES users(id) ON DELETE SET NULL,
+    CONSTRAINT url_or_text CHECK (
+        (url IS NULL OR text_content IS NULL)
+        AND NOT
+        (url IS NULL AND text_content IS NULL)
+    )
 );
 
 -- List all users who haven't created any posts
@@ -63,7 +63,7 @@ CREATE TABLE comments (
     post_id INTEGER NOT NULL,
     comment_text VARCHAR(1000),
     parent_comment_id INTEGER,
-    user_id INTEGER NOT NULL,
+    user_id INTEGER,
     comment_timestamp TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT comment_text_length CHECK (LENGTH(TRIM(comment_text)) > 0),
     CONSTRAINT fk_valid_post FOREIGN KEY (post_id)
@@ -89,7 +89,7 @@ CREATE INDEX idx_user_latest_comments
 CREATE TABLE votes (
     id SERIAL PRIMARY KEY,
     post_id INTEGER NOT NULL,
-    user_id INTEGER NOT NULL,
+    user_id INTEGER,
     vote INTEGER,
     CONSTRAINT fk_valid_user FOREIGN KEY (user_id)
         REFERENCES users(id) ON DELETE SET NULL,
