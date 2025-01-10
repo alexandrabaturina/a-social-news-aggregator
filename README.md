@@ -82,4 +82,4 @@ The Udiddit new schema contains five tables:
 ![image](https://github.com/user-attachments/assets/c8c7f5ce-ff3f-46b0-b2af-170d98dcfa50)
 *The New Schema ERD*
 
-View [SQL queries to create new tables](udiddit-ddl.sql)
+View [SQL queries to create new tables](udiddit_ddl.sql)
