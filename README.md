@@ -72,3 +72,14 @@ CREATE TABLE bad_comments (
 
 3. You’ll need to use normalization, various constraints, as well as indexes in your new database schema. You should use named constraints and indexes to make your schema cleaner. 
 4. Your new database schema will be composed of five (5) tables that should have an auto-incrementing id as their primary key. 
+## Udiddit New Schema
+The Udiddit new schema contains five tables:
+* users
+* topics
+* posts
+* comments
+* votes
+![image](https://github.com/user-attachments/assets/c8c7f5ce-ff3f-46b0-b2af-170d98dcfa50)
+*The New Schema ERD*
+
+View [SQL queries to create new tables](udiddit-ddl.sql)
